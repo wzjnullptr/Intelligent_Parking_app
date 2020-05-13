@@ -72,4 +72,14 @@ public Integer getUid() {
 public void setUid(Integer uid) {
         this.uid = uid;
         }
+
+        @Override
+        public String toString() {
+                return "User{" +
+                        "id=" + uid+
+                        ", pwd='" + upwd + '\'' +
+                        ", name='" + uname + '\'' +
+                        ", money='" + umoney + '\'' +
+                        '}';
+        }
         }

@@ -149,9 +149,12 @@ public class LoginActivity extends AppCompatActivity {
                             Log.i("info_s", "session is  :" + AppVariables.cookieStr);
 
                             Intent intent = new Intent();
-                            intent.setClass(LoginActivity.this,MainActivity.class);
+                            intent.setClass(LoginActivity.this,MycenterActivity.class);
+
                             Integer uid = (Integer) map.get("uid");
                             user.setUid(uid);
+                            Integer umoney = (Integer) map.get("umoney");
+                            user.setUmoney(umoney);
                             AppVariables.map.put("user", user);
                             startActivity(intent);
                         }else if (flag==0){
