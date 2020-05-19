@@ -31,6 +31,7 @@ public class MycenterActivity extends AppCompatActivity {
     private Button button5;
     private Button button6;
     private Integer uid;
+    private TextView textView8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +42,14 @@ public class MycenterActivity extends AppCompatActivity {
         textView7 = (TextView) findViewById(R.id.textView7);
         button5 = (Button) findViewById(R.id.button5);
         button6 = (Button) findViewById(R.id.button6);
+        textView8=(TextView) findViewById(R.id.textView8);
 
         if (AppVariables.map.get("user") != null) {
             textView6.setText(((User) AppVariables.map.get("user")).getUname());
             textView7.setText(((User) AppVariables.map.get("user")).getUmoney().toString());
         } else {
             textView6.setText("亲，你还没登录哦");
+            textView7.setText("请先登陆");
         }
 
         button5.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +57,16 @@ public class MycenterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(MycenterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        textView8.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MycenterActivity.this, CarActivity.class);
                 startActivity(intent);
             }
         });
