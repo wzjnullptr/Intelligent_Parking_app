@@ -1,7 +1,6 @@
-package com.example.administrator.intelligentparkingapp;
+package com.example.administrator.intelligentparkingapp.sign;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,8 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.administrator.intelligentparkingapp.R;
 import com.example.administrator.intelligentparkingapp.constant.Constants;
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -56,10 +55,8 @@ public class RegistActivity extends AppCompatActivity {
         uname = (EditText) findViewById(R.id.editText3);
         textView2 = (TextView) findViewById(R.id.textView2);
         textView3 = (TextView) findViewById(R.id.textView3);
-        textView5 = (TextView) findViewById(R.id.textView5);
         upwd = (EditText) findViewById(R.id.editText4);
         confirm = (EditText) findViewById(R.id.editText5);
-        editText6 = (EditText) findViewById(R.id.editText6);
         button3 = (Button) findViewById(R.id.button3);
         button4 = (Button) findViewById(R.id.button4);
 
@@ -71,6 +68,13 @@ public class RegistActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 postAsyn(uname.getText().toString(), upwd.getText().toString());
+            }
+        });
+
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               System.exit(0);
             }
         });
     }

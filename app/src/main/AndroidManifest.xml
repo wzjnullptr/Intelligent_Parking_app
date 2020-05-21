@@ -21,10 +21,10 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <!-- 获取wifi状态 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--允许程序读写手机状态和身份-->
+    <!-- 允许程序读写手机状态和身份 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
         android:allowBackup="true"
@@ -37,20 +37,22 @@
         <meta-data
             android:name="BaiduMobAd_STAT_ID"
             android:value="48ae76de3f" />
--->
+        -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="W5GCXcNM57uG0DF6ZDZnX6OC2mb40PSp" />
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".sign.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegistActivity" />
+        <activity android:name=".sign.RegistActivity" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -59,14 +61,15 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".MycenterActivity" />
-        <activity android:name=".CarActivity"></activity>
+        <activity android:name=".CarActivity" />
 
-        <!--定义百度地图的服务，用于定位-->
-        <service android:name="com.baidu.location.f"
+        <!-- 定义百度地图的服务，用于定位 -->
+        <service
+            android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote">
-        </service>
+            android:process=":remote" />
+
+        <activity android:name=".utils.nav_bar" />
     </application>
 
 </manifest>

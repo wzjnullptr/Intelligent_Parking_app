@@ -1,11 +1,8 @@
-package com.example.administrator.intelligentparkingapp;
+package com.example.administrator.intelligentparkingapp.sign;
 
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
-import android.provider.Settings;
-import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.administrator.intelligentparkingapp.MainActivity;
+import com.example.administrator.intelligentparkingapp.R;
 import com.example.administrator.intelligentparkingapp.appliaction.AppVariables;
 import com.example.administrator.intelligentparkingapp.constant.Constants;
 import com.example.administrator.intelligentparkingapp.entity.User;
@@ -149,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.i("info_s", "session is  :" + AppVariables.cookieStr);
 
                             Intent intent = new Intent();
-                            intent.setClass(LoginActivity.this,MycenterActivity.class);
+                            intent.setClass(LoginActivity.this,MainActivity.class);
 
                             Integer uid = (Integer) map.get("uid");
                             user.setUid(uid);

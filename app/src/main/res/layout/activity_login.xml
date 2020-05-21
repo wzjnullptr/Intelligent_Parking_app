@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.administrator.intelligentparkingapp.LoginActivity">
+    tools:context=".sign.LoginActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,9 +24,10 @@
         android:text="用户名"
         android:id="@+id/uname"
         android:textSize="20dp"
-        android:layout_alignBottom="@+id/editText2"
         android:layout_toLeftOf="@+id/textView"
-        android:layout_toStartOf="@+id/textView" />
+        android:layout_alignBottom="@+id/editText2"
+        android:layout_toRightOf="@+id/upwd"
+        android:layout_toEndOf="@+id/upwd" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,9 +35,7 @@
         android:text="密码"
         android:textSize="20dp"
         android:id="@+id/upwd"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/uname"
-        android:layout_toStartOf="@+id/uname" />
+        android:layout_centerVertical="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -44,19 +43,20 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/editText"
-        android:layout_marginTop="44dp"
         android:layout_alignBottom="@+id/upwd"
-        android:layout_centerHorizontal="true" />
+        android:layout_toRightOf="@+id/uname"
+        android:layout_toEndOf="@+id/uname" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText2"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="55dp"
         android:layout_below="@+id/textView"
-        android:layout_toRightOf="@+id/uname"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView" />
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignRight="@+id/editText"
+        android:layout_alignEnd="@+id/editText" />
 
     <Button
         android:layout_width="wrap_content"

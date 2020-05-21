@@ -4,10 +4,14 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,126 +19,156 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.example.administrator.intelligentparkingapp.fragment.TabMapFragment;
+import com.example.administrator.intelligentparkingapp.fragment.TabMeFragment;
+import com.example.administrator.intelligentparkingapp.fragment.TabParkFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public LocationClient mLocationClient;
-    //private MapView mapview;
-    private TextView positionText;
-    private StringBuilder currentPosition;
+    private RadioGroup mRgGroup;
+    private FragmentManager fragmentManager;
 
-    public MainActivity() {
-    }
+    private static final String[] FRAGMENT_TAG = {"tab_map","tab_park", "tab_me"};
+
+    private final int show_tab_park = 1;//找停车场
+    private final int show_tab_map = 0;//地图
+    private final int show_tab_me = 2;//我的
+    private int mrIndex = show_tab_map;//默认选中地图
+
+    private int index = -100;// 记录当前的选项
+    /**
+     * 上一次界面 onSaveInstanceState 之前的tab被选中的状态 key 和 value
+     */
+    private static final String PRV_SELINDEX = "PREV_SELINDEX";
+    private TabParkFragment tabParkFragment;
+    private TabMapFragment tabMapFragment;
+    private TabMeFragment tabMeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLocationClient = new LocationClient((getApplicationContext()));
-        mLocationClient.registerNotifyLocationListener(new MyLocationListener());
+        //解决底部选项按钮被输入文字框顶上去
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //显示界面
         setContentView(R.layout.activity_main);
-        positionText = (TextView)findViewById(R.id.position_text_view);
-        List<String> permissionList = new ArrayList<>();
-        //如果没有启动下面权限，就询问用户让用户打开
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
-        {
-            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
+
+        fragmentManager = getSupportFragmentManager();
+
+        //防止app闪退后fragment重叠
+        if (savedInstanceState != null) {
+            //读取上一次界面Save的时候tab选中的状态
+            mrIndex = savedInstanceState.getInt(PRV_SELINDEX, mrIndex);
+
+            tabParkFragment = (TabParkFragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG[1]);
+            tabMapFragment = (TabMapFragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG[0]);
+            tabMeFragment = (TabMeFragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG[2]);
         }
-        if(ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED)
-        {
-            permissionList.add(Manifest.permission.READ_PHONE_STATE);
-        }
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (!permissionList.isEmpty()) {
-            String[] permissions = permissionList.toArray(new String[permissionList.size()]);
-            ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);
-        }
-        else {
-            requestLocation();
-        }
+
+        //初始化
+        initView();
     }
 
-    /*初始化函数，并启动位置客户端LocationClient*/
-    private void requestLocation() {
-        initLocation();
-        mLocationClient.start();
-    }
-
-    /*初始化函数*/
-    private void initLocation() {
-        LocationClientOption option = new LocationClientOption();
-        option.setScanSpan(5000);
-        //option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
-        option.setIsNeedAddress(true);
-        mLocationClient.setLocOption(option);
-    }
-
-    /*只有同意打开相关权限才可以开启本程序*/
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0) {
-                    for (int result : grantResults) {
-                        if (result != PackageManager.PERMISSION_GRANTED) {
-                            Toast.makeText(this, "必须同意所有权限才能使用本程序", Toast.LENGTH_SHORT).show();
-                            finish();
-                            return;
-                        }
-                    }
-                    requestLocation();
-                } else {
-                    Toast.makeText(this, "发生未知错误", Toast.LENGTH_SHORT).show();
-                    finish();
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(PRV_SELINDEX, mrIndex);
+        super.onSaveInstanceState(outState);
+    }
+    protected void initView() {
+        //获得RadioGroup控件
+        mRgGroup = (RadioGroup)findViewById(R.id.rg_group);
+        //选择设置Fragment
+        setTabSelection(show_tab_map);
+        //点击事件
+        mRgGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_car://导航
+                        setTabSelection(show_tab_park);
+                        break;
+                    case R.id.rb_map://地图
+                        setTabSelection(show_tab_map);
+                        break;
+                    case R.id.rb_me://我的
+                        setTabSelection(show_tab_me);
+                        break;
+                    default:
+                        break;
                 }
+            }
+        });
+    }
+
+    /**
+     * 根据传入的index参数来设置选中的tab页。
+     *
+     * @param id 传入的选择的fragment
+     */
+    private void setTabSelection(int id) {    //根据传入的index参数来设置选中的tab页。
+        if (id == index) {
+            return;
+        }
+        index = id;
+        // 开启一个Fragment事务
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
+        hideFragments(transaction);
+        switch (index) {
+            case show_tab_park://停车场的fragment
+                mRgGroup.check(R.id.rb_car);
+                if (tabParkFragment == null) {
+                    tabParkFragment = new TabParkFragment();
+                    transaction.add(R.id.fl_container, tabParkFragment, FRAGMENT_TAG[index]);
+                } else {
+                    transaction.show(tabParkFragment);
+                }
+                transaction.commit();
+                break;
+            case show_tab_map://地图的fragment
+                mRgGroup.check(R.id.rb_map);
+                if (tabMapFragment == null) {
+                    tabMapFragment = new TabMapFragment();
+                    transaction.add(R.id.fl_container, tabMapFragment, FRAGMENT_TAG[index]);
+                    //tabMapFragment.getActivity().startActivity(new Intent(Test.this,MainActivity.class));
+                } else {
+                    transaction.show(tabMapFragment);
+                }
+                //transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            case show_tab_me://我的的fragment
+                mRgGroup.check(R.id.rb_me);//我的的fragment
+                if (tabMeFragment == null) {
+                    tabMeFragment = new TabMeFragment();
+                    transaction.add(R.id.fl_container, tabMeFragment, FRAGMENT_TAG[index]);
+                } else {
+                    transaction.show(tabMeFragment);
+                }
+                transaction.commit();
                 break;
             default:
+                break;
         }
     }
 
-    /*监听线程，获得当前的经纬度，并显示*/
-    public class MyLocationListener implements BDLocationListener {
-        @Override
-        public void onReceiveLocation(final BDLocation location) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (location.getLocType() == BDLocation.TypeGpsLocation || location.getLocType() == BDLocation.TypeNetWorkLocation) {
-                        Log.d("此处应跳转到百度地图界面","没有成功跳转");
-                    }
-                    currentPosition = new StringBuilder();
-                    currentPosition.append("纬度:").append(location.getLatitude()).append("\n");
-                    currentPosition.append("经度:").append(location.getLongitude()).append("\n");
-                    currentPosition.append("国家:").append(location.getCountry()).append("\n");
-                    currentPosition.append("省:").append(location.getProvince()).append("\n");
-                    currentPosition.append("市:").append(location.getCity()).append("\n");
-                    currentPosition.append("区:").append(location.getDistrict()).append("\n");
-                    currentPosition.append("街道:").append(location.getStreet()).append("\n");
-                    currentPosition.append("定位方式：");
-                    if (location.getLocType() == BDLocation.TypeGpsLocation) {
-                        currentPosition.append("GPS");
-                    } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
-                        currentPosition.append("网络");
-                    }
-                    positionText.setText(currentPosition);
-                }
-            });
+    /**
+     * 隐藏fragment
+     *
+     * @param transaction
+     */
+    private void hideFragments(FragmentTransaction transaction) {
+        if (tabParkFragment != null) {
+            transaction.hide(tabParkFragment);
         }
-    }
-
-
-    public void onConnectHotSpotMessage(String s, int i) {
-
-    }
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        mLocationClient.stop();
+        if (tabMapFragment != null) {
+            transaction.hide(tabMapFragment);
+        }
+        if (tabMeFragment != null) {
+            transaction.hide(tabMeFragment);
+        }
     }
 
 }
