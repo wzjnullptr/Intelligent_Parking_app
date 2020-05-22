@@ -1,4 +1,4 @@
-package com.example.administrator.intelligentparkingapp.sign;
+package com.example.administrator.intelligentparkingapp.Test;
 
 import android.content.Intent;
 import android.os.Looper;
@@ -33,7 +33,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RegistActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
     private TextView registerBackText;
     private TextView registerTitle;
     private ImageView registerUser;
@@ -48,11 +48,10 @@ public class RegistActivity extends AppCompatActivity {
     private ImageView registerAuthimg;
     private Button registerCheck;
     private Button registerBtn;
-    private String isPassword, isTruePassword, Autecode, Autecodeimg;
-    private int flagPassword, flagTruePassword, flagAutecode;
+    private String  isPassword, isTruePassword, Autecode, Autecodeimg;
+    private int  flagPassword, flagTruePassword, flagAutecode;
 
     private GoogleApiClient client;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,23 +92,20 @@ public class RegistActivity extends AppCompatActivity {
                 isPassword = registerPassword.getText().toString();
                 isTruePassword = turePassword.getText().toString();
                 Autecode = registerAuth.getText().toString();
-                if (!isPassword.equals(isTruePassword)) {
-                    Log.d("原密码", "确认 " + isPassword);
-                    Log.d("确认密码", "确认 " + isPassword);
-                    Toast.makeText(RegistActivity.this, "两次输入的密码必须相同", Toast.LENGTH_LONG).show();
-                } else if (!Autecode.toUpperCase().equals(Autecodeimg)) {
-                    Log.d("autecode", "输入 " + Autecode);
-                    Toast.makeText(RegistActivity.this, "验证码错误", Toast.LENGTH_LONG).show();
-                } else {
+                if(!isPassword.equals(isTruePassword)){
+                    Toast.makeText(TestActivity.this,"两次输入的密码必须相同",Toast.LENGTH_LONG).show();
+                }else if(!Autecode.toUpperCase().equals(Autecodeimg)) {
+                    Toast.makeText(TestActivity.this,"验证码错误",Toast.LENGTH_LONG).show();
+                }else{
                     postAsyn(registerId.getText().toString(), registerPassword.getText().toString());
                 }
             }
         });
 
-        registerBackText.setOnClickListener(new View.OnClickListener() {
+       registerBackText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RegistActivity.this.finish();
+                TestActivity.this.finish();
             }
         });
 
@@ -125,7 +121,7 @@ public class RegistActivity extends AppCompatActivity {
 
 
     //异步POST请求
-    public void postAsyn(final String name, final String pwd) {
+    public  void postAsyn(final String name, final String pwd) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -144,7 +140,7 @@ public class RegistActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                         Looper.prepare();
-                        Toast.makeText(RegistActivity.this, "网路连接错误", Toast.LENGTH_LONG).show();
+                        Toast.makeText(TestActivity.this, "网路连接错误", Toast.LENGTH_LONG).show();
                         Looper.loop();
                     }
 
@@ -155,19 +151,19 @@ public class RegistActivity extends AppCompatActivity {
                         int flag = (Integer) map.get("status");
                         if (flag == 1) {
                             Intent intent = new Intent();
-                            intent.setClass(RegistActivity.this, LoginActivity.class);
+                            intent.setClass(TestActivity.this,MainActivity.class);
                             startActivity(intent);
                         } else if (flag == 0) {
                             Looper.prepare();
-                            Toast.makeText(RegistActivity.this, "该用户名已存在", Toast.LENGTH_LONG).show();
+                            Toast.makeText(TestActivity.this, "该用户名已存在", Toast.LENGTH_LONG).show();
                             Looper.loop();
                         } else if (flag == 2) {
                             Looper.prepare();
-                            Toast.makeText(RegistActivity.this, "用户名或密码不能为空", Toast.LENGTH_LONG).show();
+                            Toast.makeText(TestActivity.this, "用户名或密码不能为空", Toast.LENGTH_LONG).show();
                             Looper.loop();
                         } else {
                             Looper.prepare();
-                            Toast.makeText(RegistActivity.this, "未知错误，请联系管理员", Toast.LENGTH_LONG).show();
+                            Toast.makeText(TestActivity.this, "未知错误，请联系管理员", Toast.LENGTH_LONG).show();
                             Looper.loop();
                         }
 //                        }catch (JSONException e){
@@ -178,4 +174,51 @@ public class RegistActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+   /* @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        isPassword = registerPassword.getText().toString();
+        isTruePassword = turePassword.getText().toString();
+        Autecode = registerAuth.getText().toString();
+        Autecodeimg = AutjCode.getInstance().getCode().toUpperCase();
+        switch (v.getId()) {
+            case R.id.registerPassword:
+                if (hasFocus == false) {
+                    if (isPassword.length() != 0) {
+                        registerPwText.setVisibility(View.VISIBLE);
+                    } else {
+                        registerPwText.setVisibility(View.INVISIBLE);
+                        flagPassword = 1;
+                    }
+                }
+                break;
+            case R.id.turePassword:
+                if (hasFocus == false) {
+                    if (isTruePassword.equals(isPassword)) {
+                        turePwText.setVisibility(View.INVISIBLE);
+                        flagTruePassword = 1;
+                    } else {
+                        if (turePassword.length() != 0) {
+                            turePwText.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+                break;
+            case R.id.registerAuth:
+                if (hasFocus == false) {
+                    // 判断验证码是否正确，toUpperCase()是不区分大小写
+                    if (Autecode.toUpperCase().equals(Autecodeimg)) {
+                        registerAuthText.setVisibility(View.INVISIBLE);
+                        flagAutecode = 1;
+                    } else {
+                        if (registerAuth.length() != 0) {
+                            registerAuthText.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }*/
 }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.administrator.intelligentparkingapp.MainActivity;
 import com.example.administrator.intelligentparkingapp.R;
+import com.example.administrator.intelligentparkingapp.Test.TestActivity;
 import com.example.administrator.intelligentparkingapp.appliaction.AppVariables;
 import com.example.administrator.intelligentparkingapp.constant.Constants;
 import com.example.administrator.intelligentparkingapp.entity.User;
@@ -34,8 +35,8 @@ import okhttp3.Request;
 
 public class LoginActivity extends AppCompatActivity {
     private TextView textView;
-    private TextView uname;
-    private TextView upwd;
+    private EditText uname;
+    private EditText upwd;
     private EditText editText;
     private EditText editText2;
     private Button login;
@@ -48,11 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        textView = (TextView) findViewById(R.id.textView);
-        uname = (TextView) findViewById(R.id.uname);
-        upwd = (TextView) findViewById(R.id.upwd);
-        editText = (EditText) findViewById(R.id.editText);
-        editText2 = (EditText) findViewById(R.id.editText2);
+        uname = (EditText) findViewById(R.id.uname);
+        upwd = (EditText) findViewById(R.id.upwd);
         login = (Button) findViewById(R.id.button);
         regist = (Button) findViewById(R.id.button2);
         user = new User();
@@ -60,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postAsyn(editText.getText().toString(), editText2.getText().toString());
+                postAsyn(uname.getText().toString(), upwd.getText().toString());
 
             }
         });

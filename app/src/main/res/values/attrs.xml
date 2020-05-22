@@ -19,4 +19,5 @@
         <attr name="pass" format="boolean"></attr>
         <attr name="right_icon" format="reference"></attr>
     </declare-styleable>
+
 </resources>

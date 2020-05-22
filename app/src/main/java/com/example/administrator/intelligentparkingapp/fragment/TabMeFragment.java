@@ -14,6 +14,7 @@ import com.example.administrator.intelligentparkingapp.CarActivity;
 import com.example.administrator.intelligentparkingapp.R;
 import com.example.administrator.intelligentparkingapp.appliaction.AppVariables;
 import com.example.administrator.intelligentparkingapp.entity.User;
+import com.example.administrator.intelligentparkingapp.sign.LoginActivity;
 import com.example.administrator.intelligentparkingapp.utils.nav_bar;
 
 /**
@@ -57,7 +58,17 @@ public class TabMeFragment extends Fragment {
         } else {
             userName.setText("亲，你还没登录哦");
             userMoney.setText(" ");
+            userName.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(),LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
+
 
         shoucang.setOnClickListener(new View.OnClickListener(){
 

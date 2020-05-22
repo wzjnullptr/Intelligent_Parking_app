@@ -19,25 +19,25 @@
     <RadioGroup
         android:id="@+id/rg_group"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rb_map"
-            android:layout_width="0dp"
-            android:layout_height="74dp"
-            android:layout_weight="0.76"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:button="@null"
             android:drawableTop="@drawable/map"
             android:gravity="center"
-            android:checked="false" />
+            android:checked="false"
+            android:layout_weight="0.33" />
 
 
         <RadioButton
             android:id="@+id/rb_car"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="0.33"
             android:button="@null"
             android:drawableTop="@drawable/park"
             android:gravity="center" />
@@ -47,7 +47,7 @@
             android:id="@+id/rb_me"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.46"
             android:button="@null"
             android:drawableTop="@drawable/user"
             android:gravity="center" />
