@@ -317,6 +317,8 @@ public class TabMapFragment extends Fragment {
             if (isFirstIn) {
                 //地理坐标基本数据结构
                 LatLng latLng = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
+                Log.d("当前经度", "显示" + bdLocation.getLatitude());
+                Log.d("当前纬度", "显示" + bdLocation.getLongitude());
                 //描述地图状态将要发生的变化,通过当前经纬度来使地图显示到该位置
                 MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(latLng);
                 //改变地图状态

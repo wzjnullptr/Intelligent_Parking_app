@@ -177,7 +177,7 @@
 
             my:icon="@mipmap/my_asset_manage"
 
-            my:hint="我的车辆"
+            my:hint="我的车牌"
 
             android:background="@drawable/selector"
 

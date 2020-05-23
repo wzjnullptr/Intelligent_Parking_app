@@ -17,4 +17,5 @@
     <string name="auth_code">验证码</string>
     <string name="autetrue">验证码错误</string>
     <string name="check">换一张</string>
+    <string name="addcar">添加车牌</string>
 </resources>

@@ -6,16 +6,6 @@
     <RelativeLayout
         android:id="@+id/loginTop"
         style="@style/title_relayout" >
-
-        <!--   <Button
-              android:id="@+id/loginBack"
-              style="@style/back_btn" />
-
-          <TextView
-              android:id="@+id/loginBackText"
-              style="@style/back_text"
-              android:layout_toRightOf="@+id/loginBack" />
-   -->
         <TextView
             android:id="@+id/loginTitle"
             style="@style/title_text"

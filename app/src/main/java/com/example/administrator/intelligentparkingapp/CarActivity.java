@@ -33,6 +33,7 @@ public class CarActivity extends AppCompatActivity {
     List<String> cmarkk=new ArrayList<>();
     List<String> test=new ArrayList<>();
     private ListView listView;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class CarActivity extends AppCompatActivity {
         }
 
        Log.d("新车牌","cmark"+cmarkk);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        adapter = new ArrayAdapter<String>(
                 CarActivity.this, android.R.layout.simple_expandable_list_item_1, cmarkk);
         listView.setAdapter(adapter);
     }
@@ -81,6 +82,7 @@ public class CarActivity extends AppCompatActivity {
                         Log.d("test", "test" + test);
                         cmarkk.add(test);
                     }
+                    adapter.notifyDataSetChanged();
                 }
             });
         }else{
