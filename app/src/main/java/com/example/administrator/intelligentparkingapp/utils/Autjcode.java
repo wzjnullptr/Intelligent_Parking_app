@@ -34,7 +34,6 @@ public class Autjcode {
     }
 
     private Random random = new Random();
-
     /**
      * 创建位图
      *
@@ -68,7 +67,7 @@ public class Autjcode {
         return code;
     }
 
-    // 验证码
+    // 创建验证码
     private String createCode() {
         StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < codeLength; i++) {

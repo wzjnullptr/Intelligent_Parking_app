@@ -32,16 +32,14 @@
             android:checked="false"
             android:layout_weight="0.33" />
 
-
         <RadioButton
-            android:id="@+id/rb_car"
+            android:id="@+id/rb_park"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="0.33"
             android:button="@null"
             android:drawableTop="@drawable/park"
             android:gravity="center" />
-
 
         <RadioButton
             android:id="@+id/rb_me"

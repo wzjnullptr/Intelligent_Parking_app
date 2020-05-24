@@ -43,7 +43,6 @@ public class CarActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         getcmarks();
 
-        Log.d("旧车牌","cmark"+cmarkk);
         String urlx = String.format("%s/%s", Constants.context,"car/car");
         for (int i=0;i<cmark.size();i++){
             String qurl=String.format("%s/%s?num=%s",urlx,cmark.get(i),i+1);
@@ -51,7 +50,6 @@ public class CarActivity extends AppCompatActivity {
             cmarkk.add(test);
         }
 
-       Log.d("新车牌","cmark"+cmarkk);
         adapter = new ArrayAdapter<String>(
                 CarActivity.this, android.R.layout.simple_expandable_list_item_1, cmarkk);
         listView.setAdapter(adapter);

@@ -17,17 +17,17 @@ public void setPlimit(Plimit plimit) {
         this.plimit = plimit;
         }
 
-public Integer getUmoney() {
+public Double getUmoney() {
         return umoney;
         }
 
-public void setUmoney(Integer umoney) {
+public void setUmoney(Double umoney) {
         this.umoney = umoney;
         }
-private Integer umoney;
+private double umoney;
 public User(){}
 
-public User(Integer uid,String uname,String upwd,String ucall,Integer umoney) {
+public User(Integer uid,String uname,String upwd,String ucall,Double umoney) {
         this.umoney=umoney;
         this.uname = uname;
         this.upwd = upwd;

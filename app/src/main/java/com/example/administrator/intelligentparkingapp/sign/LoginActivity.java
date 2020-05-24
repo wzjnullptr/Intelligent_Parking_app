@@ -90,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
                 call.enqueue(new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
                     }
 
                     @Override
@@ -109,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
             public void run() {
                 OkHttpClient client = new OkHttpClient();
                 user.setUname(name);
+                Log.d("username", "  " +name);
 
                 RequestBody body = new FormBody.Builder()
                         .add("name",name)
@@ -150,7 +150,9 @@ public class LoginActivity extends AppCompatActivity {
 
                             Integer uid = (Integer) map.get("uid");
                             user.setUid(uid);
-                            Integer umoney = (Integer) map.get("umoney");
+                            //将数据库余额转为double类型
+                            String a=map.get("umoney").toString();
+                            Double umoney=Double.parseDouble(a);
                             user.setUmoney(umoney);
                             AppVariables.map.put("user", user);
                             startActivity(intent);

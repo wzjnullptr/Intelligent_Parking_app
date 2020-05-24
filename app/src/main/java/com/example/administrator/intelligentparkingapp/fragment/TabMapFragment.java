@@ -75,8 +75,7 @@ public class TabMapFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mParentActivity = this .getActivity();
         Log.d("-----------------------", mParentActivity.getApplicationContext().toString());
-        SDKInitializer.initialize(mParentActivity.getApplicationContext()); //这里可以了
-        //剩下是baidu初始化找不到库的问题，去看例子
+        SDKInitializer.initialize(mParentActivity.getApplicationContext());
         //mParentActivity.setContentView(R.layout.fragment_tab_map);
         this.context =mParentActivity.getApplicationContext();
     }
@@ -137,14 +136,6 @@ public class TabMapFragment extends Fragment {
         //初始化图标,BitmapDescriptorFactory是bitmap 描述信息工厂类.
         mIconLocation = BitmapDescriptorFactory
                 .fromResource(R.drawable.location);
-        /*myOrientationListener = new MyOrientationListener(context);
-        //通过接口回调来实现实时方向的改变
-        myOrientationListener.setOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
-            @Override
-            public void onOrientationChanged(float x) {
-                mCurrentX = x;
-            }
-        });*/
     }
 
 
@@ -201,93 +192,13 @@ public class TabMapFragment extends Fragment {
 
     /**
 
-     * 菜单栏
-
-     * @param menu
-
-     * @param inflater
-
-     */
-/*
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main, menu);
-    }*/
-
-
-
-    /**
-
-     * 菜单项的选择
-
-     * @param item
-
-     * @return
-
-     */
-
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.id_map_common:
-                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-                break;
-            case R.id.id_map_site:
-                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
-                break;
-            case R.id.id_map_traffic:
-                if (mBaiduMap.isTrafficEnabled()) {
-                    mBaiduMap.setTrafficEnabled(false);
-                    item.setTitle("实时交通(off)");
-                } else {
-                    mBaiduMap.setTrafficEnabled(true);
-                    item.setTitle("实时交通(on)");
-                }
-                break;
-            case R.id.id_map_mlocation:
-                getMyLocation();
-                break;
-            case R.id.id_map_model_common:
-                //热力图
-                mBaiduMap.setBaiduHeatMapEnabled(true);
-                break;
-        }
-        return true;
-    }
-*/
-    /**
-
-     * 所有的定位信息都通过接口回调来实现
+     * 定义请求回调接口
 
      */
     public class MylocationListener implements BDLocationListener {
-        //定位请求回调接口
         private boolean isFirstIn = true;
-        //定位请求回调函数,这里面会得到定位信息
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
-            //BDLocation 回调的百度坐标类，内部封装了如经纬度、半径等属性信息
-            //MyLocationData 定位数据,定位数据建造器
-            /**
-
-             * 可以通过BDLocation配置如下参数
-
-             * 1.accuracy 定位精度
-
-             * 2.latitude 百度纬度坐标
-
-             * 3.longitude 百度经度坐标
-
-             * 4.satellitesNum GPS定位时卫星数目 getSatelliteNumber() gps定位结果时，获取gps锁定用的卫星数
-
-             * 5.speed GPS定位时速度 getSpeed()获取速度，仅gps定位结果时有速度信息，单位公里/小时，默认值0.0f
-
-             * 6.direction GPS定位时方向角度
-
-             * */
-
             mLatitude = bdLocation.getLatitude();
             mLongitude = bdLocation.getLongitude();
             MyLocationData data = new MyLocationData.Builder()
@@ -296,32 +207,16 @@ public class TabMapFragment extends Fragment {
                     .latitude(mLatitude)//百度纬度坐标
                     .longitude(mLongitude)//百度经度坐标
                     .build();
-            //设置定位数据, 只有先允许定位图层后设置数据才会生效，参见 setMyLocationEnabled(boolean)
             mBaiduMap.setMyLocationData(data);
-            //配置定位图层显示方式,三个参数的构造器
-
-            /**
-
-             * 1.定位图层显示模式
-
-             * 2.是否允许显示方向信息
-
-             * 3.用户自定义定位图标
-
-             * */
             MyLocationConfiguration configuration
                     = new MyLocationConfiguration(locationMode, true, mIconLocation);
-            //设置定位图层配置信息，只有先允许定位图层后设置定位图层配置信息才会生效，参见 setMyLocationEnabled(boolean)
             mBaiduMap.setMyLocationConfigeration(configuration);
             //判断是否为第一次定位,是的话需要定位到用户当前位置
             if (isFirstIn) {
-                //地理坐标基本数据结构
                 LatLng latLng = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
                 Log.d("当前经度", "显示" + bdLocation.getLatitude());
                 Log.d("当前纬度", "显示" + bdLocation.getLongitude());
-                //描述地图状态将要发生的变化,通过当前经纬度来使地图显示到该位置
                 MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(latLng);
-                //改变地图状态
                 mBaiduMap.setMapStatus(msu);
                 isFirstIn = false;
                 Toast.makeText(context, "您当前的位置为：" + bdLocation.getAddrStr(),Toast.LENGTH_LONG).show();

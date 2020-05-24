@@ -79,8 +79,6 @@ public class RegistActivity extends AppCompatActivity {
 
         //设置验证码图片
         registerAuthimg.setImageBitmap(Autjcode.getInstance().createBitmap());
-
-
         Autecodeimg = Autjcode.getInstance().getCode().toUpperCase();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -147,7 +145,6 @@ public class RegistActivity extends AppCompatActivity {
                         Toast.makeText(RegistActivity.this, "网路连接错误", Toast.LENGTH_LONG).show();
                         Looper.loop();
                     }
-
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                         String str = response.body().string();
@@ -170,9 +167,6 @@ public class RegistActivity extends AppCompatActivity {
                             Toast.makeText(RegistActivity.this, "未知错误，请联系管理员", Toast.LENGTH_LONG).show();
                             Looper.loop();
                         }
-//                        }catch (JSONException e){
-//                            e.printStackTrace();
-//                        }
                     }
                 });
             }

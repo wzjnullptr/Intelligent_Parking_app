@@ -75,46 +75,25 @@ public class nav_bar extends LinearLayout {
 
 
     private void init(Context context, AttributeSet attrs) {
-
         if (attrs == null) {
-
             return;
-
         }
 
-        //重点
-
         //获取属性
-
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.nav);
-
         inputview_input_icon = typedArray.getResourceId(R.styleable.nav_icon, R.mipmap.ic_launcher);
-
         right_icon = typedArray.getResourceId(R.styleable.nav_right_icon, R.mipmap.ic_launcher);
-
         inputview_input_hint = typedArray.getString(R.styleable.nav_hint);
-
         //释放
-
         typedArray.recycle();
-
-
         inflate = LayoutInflater.from(context).inflate(R.layout.activity_nav_bar, this, false);
-
         //imageView=  (ImageView)inflate.findViewById(R.id.tou);
-
         editText = (TextView) inflate.findViewById(R.id.title);
-
         imageView = (ImageView) inflate.findViewById(R.id.back);
-
         imageView.setImageResource(inputview_input_icon);
-
         editText.setText(inputview_input_hint);
-
         //editText.setInputType(inputview_is_pass?);
-
         addView(inflate);
-
     }
 
 }

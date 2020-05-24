@@ -61,12 +61,10 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             //读取上一次界面Save的时候tab选中的状态
             mrIndex = savedInstanceState.getInt(PRV_SELINDEX, mrIndex);
-
             tabParkFragment = (TabParkFragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG[1]);
             tabMapFragment = (TabMapFragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG[0]);
             tabMeFragment = (TabMeFragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG[2]);
         }
-
         //初始化
         initView();
     }
@@ -86,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                 switch (checkedId) {
-                    case R.id.rb_car://导航
+                    case R.id.rb_park://停车场界面
                         setTabSelection(show_tab_park);
                         break;
                     case R.id.rb_map://地图
